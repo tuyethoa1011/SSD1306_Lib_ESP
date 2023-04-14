@@ -3,7 +3,7 @@
 # Description
 SSD1306 library to support express-dif framework.
 
-# Một số basic functions dự kiến:
+# Basic functions build plan:
 - ssd1306_init
 - ssd1306_clear
 - ssd1306_normal_screen
