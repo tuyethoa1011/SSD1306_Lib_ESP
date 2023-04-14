@@ -16,7 +16,7 @@ SSD1306 library to support express-dif framework.
 - ssd1306_setcontrast
 - ssd1306_updatescreen
 
-# Dependencies 
+# Reference
   <ul> 
       <li>
         Datasheet: <a href = "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">SSD1306.pdf </a>
