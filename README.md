@@ -1,6 +1,6 @@
 # C/C++ library for SSD1306 OLED 128x64 pixels 
 
-# Desscription
+# Description
 SSD1306 library to support express-dif framework.
 
 # Một số basic functions dự kiến:
