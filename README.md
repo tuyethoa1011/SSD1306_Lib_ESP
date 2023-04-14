@@ -19,6 +19,6 @@ SSD1306 library to support express-dif framework.
 # Dependencies 
   <ul> 
       <li>
-        <a href = "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">Datasheet: SSD1306.pdf </a>
+        Datasheet: <a href = "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">SSD1306.pdf </a>
       </li>
   </ul>
