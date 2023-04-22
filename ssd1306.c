@@ -5,13 +5,12 @@
 static uint8_t SSD1306_Buffer[SSD1306_BUFFER_SIZE];
 
 
-
 /*Private Variable*/
 static SSD1306_t SSD1306;
 
 void ssd1306_init(i2c_port_t i2c_num)
 {
-    static const char *TAG = "i2c-lib";
+    	static const char *TAG = "i2c-lib";
 	esp_err_t espRc;
 
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -20,25 +19,25 @@ void ssd1306_init(i2c_port_t i2c_num)
 	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, SSD1306_ACK);
 	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM , SSD1306_ACK);
 
-    i2c_master_write_byte(cmd, SSD1306_DISPLAY_OFF, SSD1306_ACK);
-    i2c_master_write_byte(cmd,SSD1306_MEMORY_ADDR_MODE, SSD1306_ACK);
-    i2c_master_write_byte(cmd,SSD1306_SET_MUX_RATIO,SSD1306_ACK); //set mux ratio
-    i2c_master_write_byte(cmd,SSD1306_DISPLAY_OFFSET, SSD1306_ACK); //set offset
-    i2c_master_write_byte(cmd,SSD1306_SET_START_LINE, SSD1306_ACK);
+    	i2c_master_write_byte(cmd, SSD1306_DISPLAY_OFF, SSD1306_ACK);
+    	i2c_master_write_byte(cmd,SSD1306_MEMORY_ADDR_MODE, SSD1306_ACK);
+    	i2c_master_write_byte(cmd,SSD1306_SET_MUX_RATIO,SSD1306_ACK); //set mux ratio
+    	i2c_master_write_byte(cmd,SSD1306_DISPLAY_OFFSET, SSD1306_ACK); //set offset
+    	i2c_master_write_byte(cmd,SSD1306_SET_START_LINE, SSD1306_ACK);
 
-    i2c_master_write_byte(cmd, SSD1306_SEG_REMAP_OP, SSD1306_ACK); // reverse left-right mapping
+    	i2c_master_write_byte(cmd, SSD1306_SEG_REMAP_OP, SSD1306_ACK); // reverse left-right mapping
 	i2c_master_write_byte(cmd, SSD1306_COM_SCAN_DIR_OP, SSD1306_ACK); // reverse up-bottom mapping
 
-    i2c_master_write_byte(cmd,SSD1306_COM_PIN_CONF,SSD1306_ACK);
-    i2c_master_write_byte(cmd,SSD1306_SET_CONTRAST,SSD1306_ACK); //set contrast
+    	i2c_master_write_byte(cmd,SSD1306_COM_PIN_CONF,SSD1306_ACK);
+    	i2c_master_write_byte(cmd,SSD1306_SET_CONTRAST,SSD1306_ACK); //set contrast
 
-    i2c_master_write_byte(cmd,SSD1306_DISPLAY_ENT_DISP_ON,SSD1306_ACK);
+   	 i2c_master_write_byte(cmd,SSD1306_DISPLAY_ENT_DISP_ON,SSD1306_ACK);
     
 	i2c_master_write_byte(cmd, SSD1306_SET_CHARGE_PUMP , SSD1306_ACK);
 	i2c_master_write_byte(cmd, SSD1306_DISPLAY_NORMAL, SSD1306_ACK);
-    i2c_master_write_byte(cmd,SSD1306_SET_OSC_FREQ,SSD1306_ACK);
+    	i2c_master_write_byte(cmd,SSD1306_SET_OSC_FREQ,SSD1306_ACK);
 
-    i2c_master_write_byte(cmd, 0x14, SSD1306_ACK); //enable charge pump 
+    	i2c_master_write_byte(cmd, 0x14, SSD1306_ACK); //enable charge pump 
 
 	i2c_master_write_byte(cmd,SSD1306_DISPLAY_ON, SSD1306_ACK); //turn on light panel
 	i2c_master_write_byte(cmd,SSD1306_DEACT_SCROLL, SSD1306_ACK); //deactivate scroll
@@ -63,7 +62,9 @@ void ssd1306_init(i2c_port_t i2c_num)
 	/*Set default Value*/
 	SSD1306.Current_X = 0;
 	SSD1306.Current_Y = 0;
-
+	
+	//Set defdfault display screen
+	SSD1306.Inverted = 0; //Display normal mode
 }
 //ssd1306_init done
 
@@ -75,11 +76,12 @@ void ssd1306_clear(i2c_port_t i2c_num)
 
 void ssd1306_Fill(SSD1306_COLOR_t color) 
 {
-	/* Set memory */
+	/*Add color to buffer*/
 	memset(SSD1306_Buffer, (color == SSD1306_COLOR_BLACK) ? 0x00 : 0xFF, sizeof(SSD1306_Buffer));
 }
 
-void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num)
+
+void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num) //Display function ver 1.0 (gonna change this)
 {
 	char *text = (char*)arg_text;
 	uint8_t text_len = strlen(text);
@@ -131,6 +133,7 @@ void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num)
 	}
 }
 
+
 void ssd1306_setCursor(uint16_t x, uint16_t y)
 {
 	SSD1306.Current_X = x;
@@ -145,13 +148,11 @@ void ssd1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color)
 		return;
 	}
 
-	
 	/*Check if pixel is inverted*/
-	/*Kiểm tra xem có pixel nào bị ngược không, nếu có thì điều chỉnh lại*/
-	/*if (SSD1306.Inverted) {
+	/*Nếu đang ở chế độ inverted chúng ta sẽ thực hiện việc đảo màu cho phù hợp với chế độ hiển thị hiện tại*/
+	if (SSD1306.Inverted) {
 		color = (SSD1306_COLOR_t)!color;
 	}
-	*/
 
 	/* Set color */
 	/*Chủ yếu là để set đúng màu pixel được vẽ ra*/
@@ -165,9 +166,9 @@ void ssd1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color)
 
 
 //Software bitmap converter recommend: https://sourceforge.net/projects/lcd-image-converter/
-void ssd1306_drawBitmap(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h, uint16_t color)
+void ssd1306_drawBitmap(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h, uint16_t color) //Display up to bottom style gonna make this more flexible
 {
-	int16_t byteWidth = (w + 7) / 8; // Bitmap scanline pad = whole byte
+    int16_t byteWidth = (w + 7) / 8; // Bitmap scanline pad = whole byte
     uint8_t byte = 0;
 
     if (x >= SSD1306_WIDTH || y >= SSD1306_HEIGHT) {
