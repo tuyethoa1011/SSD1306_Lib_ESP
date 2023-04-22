@@ -22,3 +22,5 @@ SSD1306 library to support express-dif framework.
         Datasheet: <a href = "https://cdn-shop.adafruit.com/datasheets/SSD1306.pdf">SSD1306.pdf </a>
       </li>
   </ul>
+  
+  # Author: Ngo Le Tuyet Hoa (Sam)
