@@ -25,6 +25,6 @@ SSD1306 library to support express-dif framework.
   
   # Author
   - Ngo Le Tuyet Hoa (Sam)
-  #Dependencies
+ # Dependencies
   - font8x8_basic
  
