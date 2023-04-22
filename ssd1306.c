@@ -9,38 +9,24 @@ static uint8_t SSD1306_Buffer[SSD1306_BUFFER_SIZE];
 static SSD1306_t SSD1306;
 
 void ssd1306_init(i2c_port_t i2c_num)
-{
-    	static const char *TAG = "i2c-lib";
+{ static const char *TAG = "i2c-lib";
 	esp_err_t espRc;
 
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
 
 	i2c_master_start(cmd);
-	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, SSD1306_ACK);
-	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM , SSD1306_ACK);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR<< 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
 
-    	i2c_master_write_byte(cmd, SSD1306_DISPLAY_OFF, SSD1306_ACK);
-    	i2c_master_write_byte(cmd,SSD1306_MEMORY_ADDR_MODE, SSD1306_ACK);
-    	i2c_master_write_byte(cmd,SSD1306_SET_MUX_RATIO,SSD1306_ACK); //set mux ratio
-    	i2c_master_write_byte(cmd,SSD1306_DISPLAY_OFFSET, SSD1306_ACK); //set offset
-    	i2c_master_write_byte(cmd,SSD1306_SET_START_LINE, SSD1306_ACK);
+	i2c_master_write_byte(cmd, SSD1306_SET_CHARGE_PUMP, true);
+	i2c_master_write_byte(cmd, 0x14, true);
 
-    	i2c_master_write_byte(cmd, SSD1306_SEG_REMAP_OP, SSD1306_ACK); // reverse left-right mapping
-	i2c_master_write_byte(cmd, SSD1306_COM_SCAN_DIR_OP, SSD1306_ACK); // reverse up-bottom mapping
+	i2c_master_write_byte(cmd, SSD1306_SEG_REMAP_OP , true); // reverse left-right mapping
+	i2c_master_write_byte(cmd, SSD1306_COM_SCAN_DIR_OP , true); // reverse up-bottom mapping
 
-    	i2c_master_write_byte(cmd,SSD1306_COM_PIN_CONF,SSD1306_ACK);
-    	i2c_master_write_byte(cmd,SSD1306_SET_CONTRAST,SSD1306_ACK); //set contrast
-
-   	 i2c_master_write_byte(cmd,SSD1306_DISPLAY_ENT_DISP_ON,SSD1306_ACK);
-    
-	i2c_master_write_byte(cmd, SSD1306_SET_CHARGE_PUMP , SSD1306_ACK);
-	i2c_master_write_byte(cmd, SSD1306_DISPLAY_NORMAL, SSD1306_ACK);
-    	i2c_master_write_byte(cmd,SSD1306_SET_OSC_FREQ,SSD1306_ACK);
-
-    	i2c_master_write_byte(cmd, 0x14, SSD1306_ACK); //enable charge pump 
-
-	i2c_master_write_byte(cmd,SSD1306_DISPLAY_ON, SSD1306_ACK); //turn on light panel
-	i2c_master_write_byte(cmd,SSD1306_DEACT_SCROLL, SSD1306_ACK); //deactivate scroll
+	i2c_master_write_byte(cmd, SSD1306_DISPLAY_NORMAL  , true);
+	i2c_master_write_byte(cmd, SSD1306_DISPLAY_ON , true);
+	//i2c_master_write_byte(cmd, OLED_CMD_DISPLAY_OFF, true);
 
 	i2c_master_stop(cmd);
 
