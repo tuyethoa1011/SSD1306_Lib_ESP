@@ -28,5 +28,6 @@ SSD1306 library to support express-dif framework.
   - Ngo Le Tuyet Hoa (Sam)
  # Dependencies
   - font8x8_basic
+  - bitmap
  # References
  Huge thanks to STM32_lib SSD1306: https://github.com/afiskon/stm32-ssd1306/tree/master/ssd1306
