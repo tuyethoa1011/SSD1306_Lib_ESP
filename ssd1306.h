@@ -71,9 +71,9 @@
   #define SSD1306_SET_PRECHARGE     0xD9
   #define SSD1306_VCOM_DESELECT     0xDB
 
-	// AREA definition
+  // AREA definition
   // ------------------------------------------------------------------------------------
-  #define START_PAGE_ADDR           0
+  /*#define START_PAGE_ADDR           0
   #define END_PAGE_ADDR             7     // 7 for 128x64, 3 for 128x32 version
   #define START_COLUMN_ADDR         0
   #define END_COLUMN_ADDR           127
@@ -84,7 +84,7 @@
 
   #define MAX_X                     END_COLUMN_ADDR
   #define MAX_Y                     (END_PAGE_ADDR + 1) * 8
-
+*/
 
 //Define Color Fill
 #define SSD1306_COLOR_BLACK 0x00 //black color
@@ -109,15 +109,15 @@ typedef struct {
 //Function prototype definition
 void ssd1306_init(i2c_port_t i2c_num);
 void ssd1306_clear(i2c_port_t i2c_num);
-uint8_t ssd1306_normal_screen(i2c_port_t i2c_num);
-uint8_t ssd1306_invert_screen(i2c_port_t i2c_num);
+//uint8_t ssd1306_normal_screen(i2c_port_t i2c_num);
+//uint8_t ssd1306_invert_screen(i2c_port_t i2c_num);
 void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num);
 void ssd1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color);
 void ssd1306_drawBitmap(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h, uint16_t color);
-uint8_t ssd1306_setcontrast(i2c_port_t i2c_num);
+//uint8_t ssd1306_setcontrast(i2c_port_t i2c_num);
 void ssd1306_UpdateScreen(i2c_port_t i2c_num);
 void ssd1306_setCursor(uint16_t x, uint16_t y); //set x,y coordinate
 void ssd1306_Fill(SSD1306_COLOR_t color);
-
+void ssd1306_Stopscroll(i2c_port_t i2c_num);
 
 #endif                                      
