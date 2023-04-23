@@ -6,16 +6,18 @@ SSD1306 library to support express-dif framework.
 # Basic functions build plan:
 - ssd1306_init (DONE)
 - ssd1306_clear (DONE)
-- ssd1306_normal_screen
-- ssd1306_invert_screen
+- ssd1306_normal_screen/ inverse_screen (DONE but not testing)
 - ssd1306_setcursor (DONE)
-- sdd1306_string_text (DONE, it's good enough to use)
+- sdd1306_string_text (ver1.0 i will update this later because i want it to addapt with coordinator[x,y] change)
 - ssd1306_drawpixel (DONE)
 - ssd1306_drawBitmap (DONE) - need improvement
-- ssd1306_scroll (Stop scroll - Done others not done)
-- ssd1306_setcontrast
+- ssd1306_scroll (Stop scroll - Done others not done) - Need testing
+- ssd1306_setcontrast (DONE but not testing)
 - ssd1306_updatescreen (DONE)
 - ss1306_fill (DONE)
+- ssd1306_drawLine
+- ssd1306_drawRect
+- ssd1306_drawCircle
 
 # Reference
   <ul> 
