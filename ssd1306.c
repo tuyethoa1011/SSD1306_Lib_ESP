@@ -80,7 +80,7 @@ void ssd1306_Stopscroll(i2c_port_t i2c_num)
 	i2c_cmd_link_delete(cmd); 
 }
 
-void ssd1306_normal_screen(i2c_port_t i2c_num, int inv)
+void ssd1306_normal_display(i2c_port_t i2c_num, int inv)
 {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
 
