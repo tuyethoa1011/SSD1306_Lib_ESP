@@ -80,6 +80,24 @@ void ssd1306_Stopscroll(i2c_port_t i2c_num)
 	i2c_cmd_link_delete(cmd); 
 }
 
+void ssd1306_normal_screen(i2c_port_t i2c_num, int inv)
+{
+	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, SSD1306_ACK);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_SINGLE , SSD1306_ACK);
+
+	if(inv) {
+		i2c_master_write_byte(cmd,SSD1306_DISPLAY_INVERSE, SSD1306_ACK); 
+	} else {
+		i2c_master_write_byte(cmd,SSD1306_DISPLAY_NORMAL, SSD1306_ACK); 
+	}
+
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd); 
+}
 
 void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num) //Display function ver 1.0 (gonna change this)
 {
