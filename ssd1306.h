@@ -109,8 +109,7 @@ typedef struct {
 //Function prototype definition
 void ssd1306_init(i2c_port_t i2c_num);
 void ssd1306_clear(i2c_port_t i2c_num);
-//uint8_t ssd1306_normal_screen(i2c_port_t i2c_num);
-//uint8_t ssd1306_invert_screen(i2c_port_t i2c_num);
+void ssd1306_normal_screen(i2c_port_t i2c_num, int inv);
 void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num);
 void ssd1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color);
 void ssd1306_drawBitmap(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h, uint16_t color);
