@@ -118,5 +118,6 @@ void ssd1306_UpdateScreen(i2c_port_t i2c_num);
 void ssd1306_setCursor(uint16_t x, uint16_t y); //set x,y coordinate
 void ssd1306_Fill(SSD1306_COLOR_t color);
 void ssd1306_Stopscroll(i2c_port_t i2c_num);
+void ssd1306_setContrast(i2c_port_t num,uint8_t value);
 
 #endif                                      
