@@ -12,7 +12,7 @@ SSD1306 library to support express-dif framework.
 - sdd1306_string_text (DONE, it's good enough to use)
 - ssd1306_drawpixel (DONE)
 - ssd1306_drawBitmap (DONE) - need improvement
-- ssd1306_scroll
+- ssd1306_scroll (Stop scroll - Done others not done)
 - ssd1306_setcontrast
 - ssd1306_updatescreen (DONE)
 - ss1306_fill (DONE)
