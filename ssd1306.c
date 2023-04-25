@@ -106,16 +106,62 @@ void ssd1306_SetContrast(i2c_port_t i2c_num, uint8_t value)
 
 	i2c_master_start(cmd);
 	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, SSD1306_ACK);
-	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_SINGLE , SSD1306_ACK);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM , SSD1306_ACK);
 	
 	i2c_master_write_byte(cmd,SSD1306_SET_CONTRAST,SSD1306_ACK);
-	i2c_master_write_byte(cmd,SSD1306_CONTROL_BYTE_DATA_SINGLE, SSD1306_ACK);
 	i2c_master_write_byte(cmd,value,SSD1306_ACK);
 
 	i2c_master_stop(cmd);
 	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
 	i2c_cmd_link_delete(cmd);
 }
+
+char ssd1306_Putchar(char ch, SSD1306_COLOR_t color) //hiện tại font đanh được set cứng với kích thước 8x8
+{
+	uint16_t height = 0, width = 0;
+	uint8_t b;
+	//font hiện tại đang được set cứng với kích thước 8x8
+	for(height=0;height<8;height++)  
+	{	
+		b = font8x8_basic[(uint8_t)ch][height];
+		for(width = 0;width<8;width++) 
+		{	
+			//shift right là để đẩy bit sang phải
+			//and với 0x01 mục đích là để lấy bit ở trọng số thấp nhẩt sau khi được đẩy để xét set pixel hoặc not set pixel
+			if((b>>width) & 0x01) {
+				ssd1306_DrawPixel(SSD1306.Current_X + width,SSD1306.Current_Y + height,color);
+			} else {
+				ssd1306_DrawPixel(SSD1306.Current_X + width,SSD1306.Current_Y + height,!color);
+			}
+		}
+	}
+
+	/*Increase pointer*/
+	SSD1306.Current_X += 8; 
+	return ch;
+}
+
+void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color)
+{
+	char *text = (char*)arg_text;
+	uint8_t text_len = strlen(text);
+
+	uint8_t index = 0;
+
+	while(index<text_len)
+	{	
+		if(text[index] == '\n') 
+		{	
+			SSD1306.Current_X = 0; 
+			SSD1306.Current_Y += 8;
+		} else {
+			ssd1306_Putchar(text[index],color);
+		}
+		index++;
+	}
+
+}
+
 
 
 void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num) //Display function ver 1.0 (gonna change this)
