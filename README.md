@@ -35,3 +35,5 @@ SSD1306 library to support express-dif framework.
   - bitmap converter software
  # References
  Huge thanks to STM32_lib SSD1306: https://github.com/afiskon/stm32-ssd1306/tree/master/ssd1306
+ # Purpose
+ To easy interract with ssd1306 in future project.
