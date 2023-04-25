@@ -3,7 +3,7 @@
   ***************************************************************************************************************
   File:	      ssd1306.h
   Modifier:   Ngo Le Tuyet Hoa
-  Last Modified:    23rd APR 2023
+  Last Modified:    25th APR 2023
   ***************************************************************************************************************
   Copyright (C) 2023 https://github.com/tuyethoa1011
   This is a free software under the GNU license, you can redistribute it and/or modify it under the terms
@@ -109,7 +109,8 @@ typedef struct {
 //Function prototype definition
 void ssd1306_init(i2c_port_t i2c_num);
 void ssd1306_clear(i2c_port_t i2c_num);
-void ssd1306_normal_display(i2c_port_t i2c_num, int inv);
+void ssd1306_normal_screen(i2c_port_t i2c_num, int inv);
+void ssd1306_SetContrast(i2c_port_t i2c_num, uint8_t value);
 void ssd1306_string_text(const void *arg_text, i2c_port_t i2c_num);
 void ssd1306_DrawPixel(uint16_t x, uint16_t y, SSD1306_COLOR_t color);
 void ssd1306_drawBitmap(uint8_t x, uint8_t y, const unsigned char* bitmap, uint8_t w, uint8_t h, uint16_t color);
@@ -117,6 +118,7 @@ void ssd1306_UpdateScreen(i2c_port_t i2c_num);
 void ssd1306_setCursor(uint16_t x, uint16_t y); //set x,y coordinate
 void ssd1306_Fill(SSD1306_COLOR_t color);
 void ssd1306_Stopscroll(i2c_port_t i2c_num);
-void ssd1306_setContrast(i2c_port_t num,uint8_t value);
+char ssd1306_Putchar(char ch, SSD1306_COLOR_t color);
+void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color);
 
 #endif                                      
