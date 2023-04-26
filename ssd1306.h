@@ -121,7 +121,19 @@ void ssd1306_Stopscroll(i2c_port_t i2c_num);
 char ssd1306_Putchar(char ch, SSD1306_COLOR_t color);
 void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color);
 void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_COLOR_t color);
-void ssd1306_DrawRect();
-void ssd1306_DrawCircle();
-void ssd1306_FillCircle();
+void ssd1306_DrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
+void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color);
+//void ssd1306_DrawTriangle();
+//void ssd1306_on(void);
+//void ssd1306_off(void);
+//void ssd1306_DrawFillCircle();
+//void ssd1306_DrawFillRectangle();
+
+//NEXT SESSION
+/*
+  - scroll right
+  - scroll left
+  - scroll diagleft
+  - scroll diagright
+*/
 #endif                                      
