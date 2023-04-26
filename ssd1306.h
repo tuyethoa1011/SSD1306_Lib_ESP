@@ -124,8 +124,9 @@ void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_CO
 void ssd1306_DrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
 void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color);
 //void ssd1306_DrawTriangle();
-//void ssd1306_on(void);
-//void ssd1306_off(void);
+/*ON/OFF function use for saving energy purpose*/
+void ssd1306_on(void);
+void ssd1306_off(void);
 //void ssd1306_DrawFillCircle();
 //void ssd1306_DrawFillRectangle();
 
@@ -135,5 +136,5 @@ void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color
   - scroll left
   - scroll diagleft
   - scroll diagright
-*/
-#endif                                      
+  
+  #endif  
