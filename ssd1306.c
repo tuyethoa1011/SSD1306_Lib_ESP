@@ -80,6 +80,120 @@ void ssd1306_Stopscroll(i2c_port_t i2c_num)
 	i2c_cmd_link_delete(cmd); 
 }
 
+//Thuat toan ve line: https://vi.wikipedia.org/wiki/Gi%E1%BA%A3i_thu%E1%BA%ADt_Bresenham_v%E1%BA%BD_%C4%91o%E1%BA%A1n_th%E1%BA%B3ng
+//https://blog.luyencode.net/thuat-toan-breshenham/
+//https://www.iostream.vn/giai-thuat-lap-trinh/thuat-toan-ve-duong-thang-bresenham-p2BLE1
+
+/* Example Usage:
+ 	ssd1306_DrawLine(64,0,64,60,1); //x0,y0,x1,y1
+    ssd1306_DrawLine(0,32,128,32,1);
+    ssd1306_DrawLine(0,0,128,64,1);
+    ssd1306_DrawLine(128,0,0,64,1);
+
+    ssd1306_UpdateScreen(I2C_MASTER_NUM);
+
+	Result visualization:
+			  * * * 
+			   ***
+			*********
+			   ***
+			  * * *
+*/
+void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_COLOR_t color)
+{	
+	uint8_t dx, dy, sx, sy, err, e2, i, tmp;
+	//sx: amount to scale in x
+	//sy: amount to scale in y
+	//dx: x coordinator
+	//dy: y coordinator
+
+	/*Limit overflow*/
+	if(x0 >= SSD1306_WIDTH)
+	{
+		x0 = SSD1306_WIDTH - 1;
+	} 
+	if(x1 >= SSD1306_WIDTH)
+	{
+		x1 = SSD1306_WIDTH - 1;
+	}
+	if(y0 >= SSD1306_HEIGHT)
+	{
+		y0 = SSD1306_HEIGHT - 1;
+	}
+	if(y1 >= SSD1306_HEIGHT)
+	{
+		y1 = SSD1306_HEIGHT - 1;
+	}
+
+	dx = (x0 < x1) ? (x1 - x0) : (x0 - x1); 
+	dy = (y0 < y1) ? (y1 - y0) : (y0 - y1); 
+	sx = (x0 < x1) ? 1 : -1; 
+	sy = (y0 < y1) ? 1 : -1; 
+	err = ((dx > dy) ? dx : -dy) / 2; 
+
+	if (dx == 0) {
+		if (y1 < y0) {
+			tmp = y1;
+			y1 = y0;
+			y0 = tmp;
+		}
+		
+		if (x1 < x0) {
+			tmp = x1;
+			x1 = x0;
+			x0 = tmp;
+		}
+		
+		/* Vertical line */
+		for (i = y0; i <= y1; i++) {
+			ssd1306_DrawPixel(x0, i, color);
+		}
+		
+		/* Return from function */
+		return;
+	}
+	
+	if (dy == 0) {
+		if (y1 < y0) {
+			tmp = y1;
+			y1 = y0;
+			y0 = tmp;
+		}
+		
+		if (x1 < x0) {
+			tmp = x1;
+			x1 = x0;
+			x0 = tmp;
+		}
+		
+		/* Horizontal line */
+		for (i = x0; i <= x1; i++) {
+			ssd1306_DrawPixel(i, y0, color);
+		}
+		
+		/* Return from function */
+		return;
+	}
+	
+	while (1) {
+		ssd1306_DrawPixel(x0, y0, color);
+		if (x0 == x1 && y0 == y1) {
+			break;
+		}
+		e2 = err; 
+		if (e2 > -dx) {
+			err -= dy;
+			x0 += sx;
+		} 
+		if (e2 < dy) {
+			err += dx;
+			y0 += sy;
+		} 
+	}
+}
+
+
+
 void ssd1306_normal_display(i2c_port_t i2c_num, int inv)
 {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
