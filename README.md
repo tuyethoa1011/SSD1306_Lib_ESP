@@ -13,12 +13,17 @@ SSD1306 library to support express-dif framework.
 - ssd1306_drawpixel (DONE)
 - ssd1306_drawBitmap (DONE) - need improvement
 - ssd1306_scroll (Stop scroll - Done others not done) - Need testing
+  + ssd1306_scroll_left
+  + ssd1306_scroll_right
+  + ssd1306_diagrleft
+  + ssd1306_diagrright
 - ssd1306_setcontrast (DONE but not testing)
 - ssd1306_updatescreen (DONE)
 - ss1306_fill (DONE)
 - ssd1306_(Filled)drawLine (DONE) - Not Testing
 - ssd1306_(Filled)drawRect (DONE) - Not Testing
 - ssd1306_(Filled)drawCircle (DONE) - Not Testing
+- ssd1306_ON/OFF (DONE) - Power Saving Usage
 
 # Reference
   <ul> 
