@@ -16,7 +16,7 @@ SSD1306 library to support express-dif framework.
 - ssd1306_setcontrast (DONE but not testing)
 - ssd1306_updatescreen (DONE)
 - ss1306_fill (DONE)
-- ssd1306_drawLine
+- ssd1306_drawLine (DONE)
 - ssd1306_drawRect
 - ssd1306_drawCircle
 
