@@ -9,7 +9,8 @@ static uint8_t SSD1306_Buffer[SSD1306_BUFFER_SIZE];
 static SSD1306_t SSD1306;
 
 void ssd1306_init(i2c_port_t i2c_num)
-{ static const char *TAG = "i2c-lib";
+{ 
+	static const char *TAG = "i2c-lib";
 	esp_err_t espRc;
 
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
@@ -191,6 +192,68 @@ void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_CO
 		} 
 	}
 }
+
+void ssd1306_DrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color)
+{
+	/* Check input parameters */
+	if (
+		x >= SSD1306_WIDTH ||
+		y >= SSD1306_HEIGHT
+	) {
+		/* Return error */
+		return;
+	}
+	
+	/* Check width and height */
+	if ((x + w) >= SSD1306_WIDTH) {
+		w = SSD1306_WIDTH - x;
+	}
+	if ((y + h) >= SSD1306_HEIGHT) {
+		h = SSD1306_HEIGHT - y;
+	}
+	
+	/* Draw 4 lines */
+	ssd1306_DrawLine(x, y, x + w, y, color);         /* Top line */
+	ssd1306_DrawLine(x, y + h, x + w, y + h, color); /* Bottom line */
+	ssd1306_DrawLine(x, y, x, y + h, color);         /* Left line */
+	ssd1306_DrawLine(x + w, y, x + w, y + h, color); /* Right line */
+}
+
+void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color)
+{
+	int16_t f = 1 - r;
+	int16_t ddF_x = 1;
+	int16_t ddF_y = -2 * r;
+	int16_t x = 0;
+	int16_t y = r;
+
+    ssd1306_DrawPixel(x0, y0 + r, color);
+    ssd1306_DrawPixel(x0, y0 - r, color);
+    ssd1306_DrawPixel(x0 + r, y0, color);
+    ssd1306_DrawPixel(x0 - r, y0, color);
+
+    while (x < y) {
+        if (f >= 0) {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        ssd1306_DrawPixel(x0 + x, y0 + y, color);
+        ssd1306_DrawPixel(x0 - x, y0 + y, color);
+        ssd1306_DrawPixel(x0 + x, y0 - y, color);
+        ssd1306_DrawPixel(x0 - x, y0 - y, color);
+
+        ssd1306_DrawPixel(x0 + y, y0 + x, color);
+        ssd1306_DrawPixel(x0 - y, y0 + x, color);
+        ssd1306_DrawPixel(x0 + y, y0 - x, color);
+        ssd1306_DrawPixel(x0 - y, y0 - x, color);
+    }
+}
+
 
 
 
@@ -411,3 +474,34 @@ void ssd1306_UpdateScreen(i2c_port_t i2c_num)
 	
 }
 
+void ssd1306_on(void)
+{
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd, SSD1306_SET_CHARGE_PUMP, true);
+	i2c_master_write_byte(cmd, 0x14, true);
+	i2c_master_write_byte(cmd, SSD1306_DISPLAY_ON, true);
+	
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
+
+void ssd1306_off(void)
+{
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd, SSD1306_SET_CHARGE_PUMP, true);
+	i2c_master_write_byte(cmd, 0x10, true);
+	i2c_master_write_byte(cmd, SSD1306_DISPLAY_OFF, true);
+	
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
