@@ -123,12 +123,13 @@ void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color);
 void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_COLOR_t color);
 void ssd1306_DrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
 void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color);
+void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
+void ssd1306_DrawFilledRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
+void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
 //void ssd1306_DrawTriangle();
 /*ON/OFF function use for saving energy purpose*/
 void ssd1306_on(void);
 void ssd1306_off(void);
-//void ssd1306_DrawFillCircle();
-//void ssd1306_DrawFillRectangle();
 
 //NEXT SESSION
 /*
@@ -136,5 +137,7 @@ void ssd1306_off(void);
   - scroll left
   - scroll diagleft
   - scroll diagright
-  
+*/
+//Sáng mai làm nốt scroll là xong được cái thư viện củ chuối này
+
   #endif  
