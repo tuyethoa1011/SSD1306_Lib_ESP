@@ -120,5 +120,8 @@ void ssd1306_Fill(SSD1306_COLOR_t color);
 void ssd1306_Stopscroll(i2c_port_t i2c_num);
 char ssd1306_Putchar(char ch, SSD1306_COLOR_t color);
 void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color);
-
+void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_COLOR_t color);
+void ssd1306_DrawRect();
+void ssd1306_DrawCircle();
+void ssd1306_FillCircle();
 #endif                                      
