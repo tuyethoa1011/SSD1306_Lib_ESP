@@ -254,7 +254,118 @@ void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color
     }
 }
 
+void ssd1306_DrawFilledTriangle(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, SSD1306_COLOR_t color) {
+	int8_t deltax = 0, deltay = 0, x = 0, y = 0, xinc1 = 0, xinc2 = 0, 
+	yinc1 = 0, yinc2 = 0, den = 0, num = 0, numadd = 0, numpixels = 0, 
+	curpixel = 0;
+	
+	deltax = ABS(x1 - x0);
+	deltay = ABS(y1 - y0);
+	x = x0;
+	y = y0;
 
+	if (x1 >= x0) {
+		xinc1 = 1;
+		xinc2 = 1;
+	} else {
+		xinc1 = -1;
+		xinc2 = -1;
+	}
+
+	if (y1 >= y) {
+		yinc1 = 1;
+		yinc2 = 1;
+	} else {
+		yinc1 = -1;
+		yinc2 = -1;
+	}
+
+	if (deltax >= deltay){
+		xinc1 = 0;
+		yinc2 = 0;
+		den = deltax;
+		num = deltax / 2;
+		numadd = deltay;
+		numpixels = deltax;
+	} else {
+		xinc2 = 0;
+		yinc1 = 0;
+		den = deltay;
+		num = deltay / 2;
+		numadd = deltax;
+		numpixels = deltay;
+	}
+
+	for (curpixel = 0; curpixel <= numpixels; curpixel++) {
+		ssd1306_DrawLine(x, y, x2, y2, color);
+
+		num += numadd;
+		if (num >= den) {
+			num -= den;
+			x += xinc1;
+			y += yinc1;
+		}
+		x += xinc2;
+		y += yinc2;
+	}
+}
+void ssd1306_DrawFilledRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color) {
+	uint8_t i;
+	
+	/* Check input parameters */
+	if (
+		x >= SSD1306_WIDTH ||
+		y >= SSD1306_HEIGHT
+	) {
+		/* Return error */
+		return;
+	}
+	
+	/* Check width and height */
+	if ((x + w) >= SSD1306_WIDTH) {
+		w = SSD1306_WIDTH - x;
+	}
+	if ((y + h) >= SSD1306_HEIGHT) {
+		h = SSD1306_HEIGHT - y;
+	}
+	
+	/* Draw lines */
+	for (i = 0; i <= h; i++) {
+		/* Draw lines */
+		ssd1306_DrawLine(x, y + i, x + w, y + i, color);
+	}
+}
+void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c) {
+	int16_t f = 1 - r;
+	int16_t ddF_x = 1;
+	int16_t ddF_y = -2 * r;
+	int16_t x = 0;
+	int16_t y = r;
+
+    ssd1306_DrawPixel(x0, y0 + r, c);
+    ssd1306_DrawPixel(x0, y0 - r, c);
+    ssd1306_DrawPixel(x0 + r, y0, c);
+    ssd1306_DrawPixel(x0 - r, y0, c);
+    ssd1306_DrawLine(x0 - r, y0, x0 + r, y0, c);
+
+    while (x < y) {
+        if (f >= 0) {
+            y--;
+            ddF_y += 2;
+            f += ddF_y;
+        }
+        x++;
+        ddF_x += 2;
+        f += ddF_x;
+
+        ssd1306_DrawLine(x0 - x, y0 + y, x0 + x, y0 + y, c);
+        ssd1306_DrawLine(x0 + x, y0 - y, x0 - x, y0 - y, c);
+
+        ssd1306_DrawLine(x0 + y, y0 + x, x0 - y, y0 + x, c);
+        ssd1306_DrawLine(x0 + y, y0 - x, x0 - y, y0 - x, c);
+    }
+}
+ 
 
 
 void ssd1306_normal_display(i2c_port_t i2c_num, int inv)
