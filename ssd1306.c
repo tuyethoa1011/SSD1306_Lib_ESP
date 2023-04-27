@@ -67,6 +67,94 @@ void ssd1306_Fill(SSD1306_COLOR_t color)
 	memset(SSD1306_Buffer, (color == SSD1306_COLOR_BLACK) ? 0x00 : 0xFF, sizeof(SSD1306_Buffer));
 }
 
+void ssd1306_ScrollRight(uint8_t start_row, uint8_t end_row)
+{	
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd,SSD1306_RIGHT_HORIZONTAL_SCROLL, true);
+	i2c_master_write_byte(cmd, 0x00, true); // send dummy
+	i2c_master_write_byte(cmd, start_row, true); // start page address
+	i2c_master_write_byte(cmd, 0x00, true); // time interval 5 frames
+	i2c_master_write_byte(cmd, end_row, true); // end page address
+	i2c_master_write_byte(cmd, 0x00, true);
+	i2c_master_write_byte(cmd, 0xFF, true);
+	i2c_master_write_byte(cmd, SSD1306_ACTIVE_SCROLL, true); // start scroll
+
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
+
+void ssd1306_ScrollLeft(uint8_t start_row, uint8_t end_row)
+{
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd,SSD1306_LEFT_HORIZONTAL_SCROLL, true);
+	i2c_master_write_byte(cmd, 0x00, true); // send dummy
+	i2c_master_write_byte(cmd, start_row, true); // start page address
+	i2c_master_write_byte(cmd, 0x00, true); // time interval 5 frames
+	i2c_master_write_byte(cmd, end_row, true); // end page address
+	i2c_master_write_byte(cmd, 0x00, true);
+	i2c_master_write_byte(cmd, 0xFF, true);
+	i2c_master_write_byte(cmd, SSD1306_ACTIVE_SCROLL, true); // start scroll
+
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
+
+void ssd1306_ScrolldiagrRight(uint8_t start_row, uint8_t end_row)
+{
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd,SSD1306_SET_VERTICAL_SCROLL_AREA, true); // start scroll
+	i2c_master_write_byte(cmd, 0x00, true); // write dummy
+	i2c_master_write_byte(cmd, SSD1306_HEIGHT, true); // // write dummy
+	i2c_master_write_byte(cmd, SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL, true); //  set the area
+	i2c_master_write_byte(cmd, 0x00, true); 
+	i2c_master_write_byte(cmd, start_row, true); // start page address
+	i2c_master_write_byte(cmd, 0x00, true); // time interval 5 frames
+	i2c_master_write_byte(cmd, end_row, true); // end page address
+	i2c_master_write_byte(cmd, 0x01, true); 
+	i2c_master_write_byte(cmd, SSD1306_ACTIVE_SCROLL, true); // start scroll
+
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
+
+void ssd1306_ScrolldiagrLeft(uint8_t start_row, uint8_t end_row)
+{
+	cmd = i2c_cmd_link_create();
+	i2c_master_start(cmd);
+	i2c_master_write_byte(cmd, (SSD1306_OLED_ADDR << 1) | I2C_MASTER_WRITE, true);
+	i2c_master_write_byte(cmd, SSD1306_CONTROL_BYTE_CMD_STREAM, true);
+	
+	i2c_master_write_byte(cmd,SSD1306_SET_VERTICAL_SCROLL_AREA, true); // start scroll
+	i2c_master_write_byte(cmd, 0x00, true); // write dummy
+	i2c_master_write_byte(cmd, SSD1306_HEIGHT, true); // // write dummy
+	i2c_master_write_byte(cmd, SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL, true); //  set the area
+	i2c_master_write_byte(cmd, 0x00, true); 
+	i2c_master_write_byte(cmd, start_row, true); // start page address
+	i2c_master_write_byte(cmd, 0x00, true); // time interval 5 frames
+	i2c_master_write_byte(cmd, end_row, true); // end page address
+	i2c_master_write_byte(cmd, 0x01, true); 
+	i2c_master_write_byte(cmd, SSD1306_ACTIVE_SCROLL, true); // start scroll
+
+	i2c_master_stop(cmd);
+	i2c_master_cmd_begin(i2c_num, cmd, 10/portTICK_PERIOD_MS);
+	i2c_cmd_link_delete(cmd);
+}
+
 void ssd1306_Stopscroll(i2c_port_t i2c_num)
 {
 	i2c_cmd_handle_t cmd = i2c_cmd_link_create();
