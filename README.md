@@ -12,7 +12,7 @@ SSD1306 library to support express-dif framework.
 - ssd1306_putstring and ssd1306_putchar was built to solve problem below.
 - ssd1306_drawpixel (DONE)
 - ssd1306_drawBitmap (DONE) - need improvement
-- ssd1306_scroll (Stop scroll - Done others not done) - Need testing
+- ssd1306_scroll (DONE) - Need testing
   + ssd1306_scroll_left
   + ssd1306_scroll_right
   + ssd1306_diagrleft
@@ -23,7 +23,7 @@ SSD1306 library to support express-dif framework.
 - ssd1306_(Filled)drawLine (DONE) - Not Testing
 - ssd1306_(Filled)drawRect (DONE) - Not Testing
 - ssd1306_(Filled)drawCircle (DONE) - Not Testing
-- ssd1306_ON/OFF (DONE) - Power Saving Usage
+- ssd1306_ON/OFF (DONE) - Power Saving Usage - Not Testing
 
 # Reference
   <ul> 
@@ -44,3 +44,5 @@ SSD1306 library to support express-dif framework.
  To easy interract with ssd1306 in future project.
 # Future target
 Trying to understand how scroll works later. Needs to finish coding fast to save times.
+# License 
+MIT License
