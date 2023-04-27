@@ -3,7 +3,7 @@
   ***************************************************************************************************************
   File:	      ssd1306.h
   Modifier:   Ngo Le Tuyet Hoa
-  Last Modified:    26th APR 2023
+  Last Modified:    27th APR 2023
   ***************************************************************************************************************
   Copyright (C) 2023 https://github.com/tuyethoa1011
   This is a free software under the GNU license, you can redistribute it and/or modify it under the terms
@@ -56,6 +56,13 @@
   #define SSD1306_DISPLAY_INVERSE       0xA7
   #define SSD1306_DEACT_SCROLL      0x2E
   #define SSD1306_ACTIVE_SCROLL     0x2F
+
+  #define SSD1306_LEFT_HORIZONTAL_SCROLL 0x27
+  #define SSD1306_RIGHT_HORIZONTAL_SCROLL 0x26
+
+  #define SSD1306_SET_VERTICAL_SCROLL_AREA 0xA3
+  #define SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL 0x29
+  #define SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL 0x2A
   #define SSD1306_SET_START_LINE    0x40
   #define SSD1306_MEMORY_ADDR_MODE  0x20
   #define SSD1306_SET_COLUMN_ADDR   0x21
@@ -71,20 +78,6 @@
   #define SSD1306_SET_PRECHARGE     0xD9
   #define SSD1306_VCOM_DESELECT     0xDB
 
-  // AREA definition
-  // ------------------------------------------------------------------------------------
-  /*#define START_PAGE_ADDR           0
-  #define END_PAGE_ADDR             7     // 7 for 128x64, 3 for 128x32 version
-  #define START_COLUMN_ADDR         0
-  #define END_COLUMN_ADDR           127
-  #define RAM_X_END                 END_COLUMN_ADDR + 1
-  #define RAM_Y_END                 END_PAGE_ADDR + 1
-
-  #define CACHE_SIZE_MEM            (1 + END_PAGE_ADDR) * (1 + END_COLUMN_ADDR)
-
-  #define MAX_X                     END_COLUMN_ADDR
-  #define MAX_Y                     (END_PAGE_ADDR + 1) * 8
-*/
 
 //Define Color Fill
 #define SSD1306_COLOR_BLACK 0x00 //black color
@@ -94,7 +87,7 @@
 #define SSD1306_BUFFER_SIZE SSD1306_WIDTH * SSD1306_HEIGHT / 8
 typedef enum {
     Black = 0x00, // Black color, no pixel
-    White = 0x01  // Pixel is set, white color
+    White = 0x01  // Pixel is set, color depend on OLED
 } SSD1306_COLOR_t;
 
 /*Private SSD1306 Structure*/
@@ -123,21 +116,18 @@ void ssd1306_PutString(const void *arg_text, SSD1306_COLOR_t color);
 void ssd1306_DrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, SSD1306_COLOR_t color);
 void ssd1306_DrawRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
 void ssd1306_DrawCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t color);
-void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
-void ssd1306_DrawFilledRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
-void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
-//void ssd1306_DrawTriangle();
+void SSD1306_DrawTriangle(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, SSD1306_COLOR_t color);
 /*ON/OFF function use for saving energy purpose*/
 void ssd1306_on(void);
 void ssd1306_off(void);
+void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
+void ssd1306_DrawFilledRectangle(uint8_t x, uint8_t y, uint8_t w, uint8_t h, SSD1306_COLOR_t color);
+void ssd1306_DrawFilledCircle(int16_t x0, int16_t y0, int16_t r, SSD1306_COLOR_t c);
 
-//NEXT SESSION
-/*
-  - scroll right
-  - scroll left
-  - scroll diagleft
-  - scroll diagright
-*/
-//Sáng mai làm nốt scroll là xong được cái thư viện củ chuối này
+void ssd1306_ScrollRight(uint8_t start_row, uint8_t end_row);
+void ssd1306_ScrollLeft(uint8_t start_row, uint8_t end_row);
 
-  #endif  
+void ssd1306_ScrolldiagrRight(uint8_t start_row, uint8_t end_row);
+void SSD1306_ScrolldiagLeft(uint8_t start_row, uint8_t end_row);
+
+#endif                                      
