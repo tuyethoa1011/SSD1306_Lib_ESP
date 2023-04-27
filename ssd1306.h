@@ -128,6 +128,6 @@ void ssd1306_ScrollRight(uint8_t start_row, uint8_t end_row);
 void ssd1306_ScrollLeft(uint8_t start_row, uint8_t end_row);
 
 void ssd1306_ScrolldiagrRight(uint8_t start_row, uint8_t end_row);
-void SSD1306_ScrolldiagLeft(uint8_t start_row, uint8_t end_row);
+void SSD1306_ScrolldiagrLeft(uint8_t start_row, uint8_t end_row);
 
 #endif                                      
