@@ -24,6 +24,28 @@
 #include "esp_log.h"
 
 
+//define ssd1306 buffer
+#define SSD1306_BUFFER_SIZE SSD1306_WIDTH * SSD1306_HEIGHT / 8
+typedef enum {
+    Black = 0x00, // Black color, no pixel
+    White = 0x01  // Pixel is set, color depend on OLED
+} SSD1306_COLOR_t;
+
+
+//Define Color Fill
+#define SSD1306_COLOR_BLACK 0x00 //black color
+#define SSD1306_COLOR_WHITE 0x01 //white color
+
+
+
+/*Private SSD1306 Structure*/
+typedef struct {
+	uint16_t Current_X;
+	uint16_t Current_Y;
+	uint8_t Inverted;
+	uint8_t Initialized;
+} SSD1306_t;
+
 //Define SSD1306 width and length
 #define SSD1306_WIDTH 128
 #define SSD1306_HEIGHT 64
@@ -78,25 +100,6 @@
   #define SSD1306_SET_PRECHARGE     0xD9
   #define SSD1306_VCOM_DESELECT     0xDB
 
-
-//Define Color Fill
-#define SSD1306_COLOR_BLACK 0x00 //black color
-#define SSD1306_COLOR_WHITE 0x01 //white color
-
-//define ssd1306 buffer
-#define SSD1306_BUFFER_SIZE SSD1306_WIDTH * SSD1306_HEIGHT / 8
-typedef enum {
-    Black = 0x00, // Black color, no pixel
-    White = 0x01  // Pixel is set, color depend on OLED
-} SSD1306_COLOR_t;
-
-/*Private SSD1306 Structure*/
-typedef struct {
-	uint16_t Current_X;
-	uint16_t Current_Y;
-	uint8_t Inverted;
-	uint8_t Initialized;
-} SSD1306_t;
 
 
 //Function prototype definition
