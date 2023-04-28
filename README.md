@@ -43,6 +43,7 @@ SSD1306 library to support express-dif framework.
  # Purpose
  To easy interract with ssd1306 in future project.
 # Future target
-Trying to understand how scroll works later. Needs to finish coding fast to save times.
+- TESTING. 
+- OPTIMIZATON & CLEAN CODE, SIMPLIFY.
 # License 
 MIT License
