@@ -46,4 +46,4 @@ SSD1306 library to support express-dif framework.
 - TESTING. 
 - OPTIMIZATON & CLEAN CODE, SIMPLIFY.
 # License 
-MIT License
+MIT License.
