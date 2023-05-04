@@ -3,8 +3,8 @@
 # Description
 SSD1306 library to support express-dif framework.
 
-#Version
-- DEMO V0.1
+# Version
+- DEMO v0.1
 # Basic functions build plan:
 - ssd1306_init (DONE)
 - ssd1306_clear (DONE)
