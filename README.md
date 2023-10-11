@@ -46,7 +46,7 @@ Ngo Le Tuyet Hoa
  # References
  Huge thanks to STM32_lib SSD1306: https://github.com/afiskon/stm32-ssd1306/tree/master/ssd1306
  # Purpose
- To easy interract with ssd1306 in future project.
+ To easy interract with ssd1306 project with esp.
 # Future target
 - TESTING. 
 - OPTIMIZATON & CLEAN CODE, SIMPLIFY.
