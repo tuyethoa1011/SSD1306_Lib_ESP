@@ -3,6 +3,9 @@
 # Description
 SSD1306 library to support express-dif framework.
 
+# Author
+Ngo Le Tuyet Hoa
+
 # Version
 - DEMO v0.1
 # Basic functions build plan:
